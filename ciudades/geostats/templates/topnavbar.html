@@ -1,0 +1,30 @@
+{% block  topnavbar %}
+<script src="../static/js/navbar.js"></script>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item ">
+        <a class="nav-link" href="/test1">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/test2">Features</a>
+      </li>
+        {% if not user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link" href="/login">Log in</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/signup">Sign up</a>
+      </li>
+        {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="/logout">Log out</a>
+      </li>
+        {% endif %}
+    </ul>
+    <span class="navbar-text">
+      Navbar text with an inline element
+    </span>
+  </div>
+</nav>
+{% endblock  %}
