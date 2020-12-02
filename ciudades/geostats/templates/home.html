@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}
+        {% if not user.is_authenticated %}
+            Home
+                {% else %}
+            {{ user.username }}
+        {% endif %}
+{% endblock %}
+
+{% block content %}
+        {% if not user.is_authenticated %}
+           <div>
+                <h1>Home</h1>
+                <h5> Please log in</h5>
+           </div>
+        {% else %}
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                            Your Towns
+                            </div>
+                      <ul class="list-group list-group-flush">
+                          {% for t in towns %}
+                        <li class="list-group-item"> {{ t.entity.name }}</li>
+                          {%  endfor %}
+
+                      </ul>
+                            </div>
+                        </div>
+
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                            Featured
+                            </div>
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Cras justo odio</li>
+                        <li class="list-group-item">Dapibus ac facilisis in</li>
+                        <li class="list-group-item">Vestibulum at eros</li>
+                      </ul>
+                        </div>
+                    </div>
+
+                      <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                            Featured
+                            </div>
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Cras justo odio</li>
+                        <li class="list-group-item">Dapibus ac facilisis in</li>
+                        <li class="list-group-item">Vestibulum at eros</li>
+                      </ul>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        {% endif %}
+{% endblock %}

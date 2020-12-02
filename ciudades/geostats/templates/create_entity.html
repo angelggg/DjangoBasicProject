@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %} Create Entity  {% endblock %}
+    {% block add_imports %} <!--<link rel="stylesheet" href="../static/css/create_entity.css">--> {% endblock %}
+
+    {% block content %}
+    <div class="d-flex justify-content-center down-buffer">
+        Insert &nbsp;<a target="_blank" href="http://www.geonames.org"> Geonames </a> &nbsp;
+        ID to include the town/region/country
+    </div>
+        {% include "form_create_entity.html" %}
+    {% endblock %}

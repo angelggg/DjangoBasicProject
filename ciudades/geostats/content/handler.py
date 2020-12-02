@@ -1,4 +1,7 @@
-from typing import Optional, Union
+from typing import Union
+
+from django.contrib.auth.models import User
+
 from ciudades.geostats.models import Town, Country, Region
 from ciudades.geostats.content.scraper import GeonamesScraper
 
@@ -6,7 +9,7 @@ from ciudades.geostats.content.scraper import GeonamesScraper
 class GeonamesHandler:
     entities_to_create = {}
     scraper = None
-
+    user = None
     @staticmethod
     def get_relevant_model(entity_type: int) -> Union[Town, Region, Country, None]:
 
@@ -17,9 +20,10 @@ class GeonamesHandler:
             4: Town
         }.get(entity_type)
 
-    def scrape_geonames(self, geonames_id: int) -> bool:
+    def scrape_geonames(self, geonames_id: int, user: User) -> int:
         if not self.scraper:
             self.scraper = GeonamesScraper()
+        self.user = user
         entity_info = self.scraper.scrape_geonames(geonames_id)
         entity_type = list(entity_info.keys())[0]
         self.entities_to_create.update(entity_info)
@@ -36,10 +40,9 @@ class GeonamesHandler:
             entity_info = self.scraper.scrape_geonames(parent_id)
             self.entities_to_create.update(entity_info)
         if self.entities_to_create:
-            self.create_entities()
-            return True
+            return self.create_entities()
         else:
-            return False
+            return 0
 
     def create_entities(self) -> int:
         created_count = 0
@@ -47,7 +50,8 @@ class GeonamesHandler:
         keys.sort()
         for key in keys:
             model = self.get_relevant_model(key)
-            entity, is_new = model.objects.get_or_create(**self.entities_to_create[key])
+            entity, is_new = model.objects.get_or_create(**self.entities_to_create[key],
+                                                         defaults={'creator_id': self.user.pk})
             created_count += 1 if is_new else 0
             if key == 4:
                 if entity.country.capital != model:

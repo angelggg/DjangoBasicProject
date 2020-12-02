@@ -16,17 +16,19 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
-from ciudades.geostats.views import login_view, do_login_view, sign_up, test1, test2, logout_view
+from ciudades.geostats.views import login_view, do_login_view, sign_up_view, create_entity_view, user_entity_detail,\
+    logout_view, create_entities_view, user_home_view
 from ciudades.geostats.routers import apirouter
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', view=user_home_view, name="user_home_view"),
     url(r'^login/$', view=login_view, name="login_view"),
     url(r'^do_login/$', view=do_login_view, name="do_login_view"),
-    url(r'^signup/$', view=sign_up, name="sign_up"),
-    url(r'^test1/$', view=test1, name="test1"),
-    url(r'^test2/$', view=test2, name="test2"),
+    url(r'^create_entities/$', view=create_entities_view, name="create_entities"),
+    url(r'^signup/$', view=sign_up_view, name="sign_up"),
+    url(r'^create_entity/$', view=create_entity_view, name="create_entity"),
     url(r'^logout/$', view=logout_view, name="logout_view"),
-    path('api-auth/', include('rest_framework.urls')),
+    path(r'entity/<int:pk>/', user_entity_detail),
     path(r'api/', include(apirouter.urls)),
 ]

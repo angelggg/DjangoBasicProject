@@ -1,4 +1,4 @@
-function checkForm(){
+function CheckForm(){
 
 	var name = document.getElementById("uname").value;
 	var pwd  = document.getElementById("pwd").value;

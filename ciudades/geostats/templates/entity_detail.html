@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %} {{ entity.name }} {% endblock %}
+{% block add_imports %}  <link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.min.css"/>
+  {% endblock %}
+
+{% block content %}
+    <div>
+        <p>Type: {{ type }}</p>
+        <p>Name: {{ entity.name }}</p>
+        <p>Population: {{ entity.population }}</p>
+        <p>Elevation: {{ entity.elevation }}</p>
+    </div>
+    {% if type == "Region" or type == "Town" %}
+        {% if type == "Town" %}
+            Region : {{ entity.region.name }}
+        {% endif %}
+        Country : {{ entity.country.name }}
+    {% else %}
+        {% if entity.capital %}
+        Capital : {{ entity.capital.name }}
+        {% endif %}
+    {% endif %}
+{% endblock %}

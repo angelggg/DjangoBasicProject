@@ -1,15 +1,22 @@
+from random import random
+
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
+from django.http import JsonResponse, HttpResponseNotFound
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import logout, login as do_login
+from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm
 # Create your views here.
+from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK, HTTP_403_FORBIDDEN, HTTP_307_TEMPORARY_REDIRECT
+
+from ciudades.geostats.models import UserEntity
+
+
 def login_view(request):
     args = {}
     if request.GET.get("no_user"):
         args['no_user'] = True
     return render(request, 'login.html', args)
-
 
 def do_login_view(request):
     username = request.POST['uname']
@@ -22,7 +29,7 @@ def do_login_view(request):
         return redirect("/login?no_user=true")
 
 
-def sign_up(request):
+def sign_up_view(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -42,9 +49,43 @@ def logout_view(request):
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
-def test1(request):
-    return render(request, 'test1.html')
+def create_entity_view(request):
+    return render(request, 'create_entity.html')
 
 
-def test2(request):
-    return render(request, 'test2.html')
+def user_entity_detail(request, pk):
+    if not request.user.is_authenticated:
+        return redirect("/login")
+    try:
+        user_entity = UserEntity.objects.get(pk=pk, user=request.user)
+        entity = user_entity.entity
+        type = user_entity.content_type.model
+        return render(request, 'entity_detail.html', {'entity': entity, 'type': type.capitalize()})
+    except ObjectDoesNotExist:
+        return HttpResponseNotFound("Object not found, sorry")
+
+
+def create_entities_view(request):
+    from ciudades.geostats.content.handler import GeonamesHandler
+    if not request.user.is_authenticated:
+        code = HTTP_403_FORBIDDEN
+        message = {"created": 0, "error": "LoginRequired"}
+
+    else:
+        user = request.user
+        entity_id = request.POST.get("entity_id")
+        try:
+            message = {"created": GeonamesHandler().scrape_geonames(entity_id, user), "error": False}
+            code = HTTP_200_OK
+        except AttributeError:
+            message = {"created": 0, "error": "IdNotFound"}
+            code = HTTP_400_BAD_REQUEST
+    return JsonResponse(message, status=code)
+
+def user_home_view(request):
+    towns = sorted(request.user.entities.get_towns()[:5], key=lambda x: random())
+    regions = sorted(request.user.entities.get_regions()[:5], key=lambda x: random())
+    countries = sorted(request.user.entities.get_countries()[:5], key=lambda x: random())
+
+    return render(request, 'home.html',{"towns": towns, "regions": regions, "countries": countries})
+
