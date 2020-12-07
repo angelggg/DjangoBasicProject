@@ -6,10 +6,9 @@ from django.http import JsonResponse, HttpResponseNotFound
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm
-# Create your views here.
-from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK, HTTP_403_FORBIDDEN, HTTP_307_TEMPORARY_REDIRECT
+from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK, HTTP_403_FORBIDDEN
 
-from ciudades.geostats.models import UserEntity
+from ciudades.geostats.models import UserEntity, UserStats
 
 
 def login_view(request):
@@ -24,7 +23,7 @@ def do_login_view(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         login(request, user)
-        return redirect("/admin")
+        return redirect("/")
     else:
         return redirect("/login?no_user=true")
 
@@ -83,9 +82,25 @@ def create_entities_view(request):
     return JsonResponse(message, status=code)
 
 def user_home_view(request):
-    towns = sorted(request.user.entities.get_towns()[:5], key=lambda x: random())
-    regions = sorted(request.user.entities.get_regions()[:5], key=lambda x: random())
-    countries = sorted(request.user.entities.get_countries()[:5], key=lambda x: random())
-
+    towns = sorted(request.user.entities.get_towns(user=request.user)[:5], key=lambda x: random())
+    regions = sorted(request.user.entities.get_regions(user=request.user)[:5], key=lambda x: random())
+    countries = sorted(request.user.entities.get_countries(user=request.user)[:5], key=lambda x: random())
     return render(request, 'home.html',{"towns": towns, "regions": regions, "countries": countries})
 
+
+
+def entities_list(request, kind: str):
+    towns, regions, countries = {}, {}, {}
+    if kind == "towns":
+        towns = request.user.entities.get_towns(user=request.user).distinct()
+    elif kind == "regions":
+        regions = request.user.entities.get_regions(user=request.user).distinct()
+    elif kind == "countries":
+        countries = request.user.entities.get_countries(user=request.user).distinct()
+    return render(request, 'home.html', {"towns": towns, "regions": regions, "countries": countries})
+
+
+def user_stats(request):
+    if not request.user.is_authenticated:
+        return redirect('home')
+    return render(request, 'user-stats.html', {"user_stats": UserStats.objects.filter(user=request.user)})

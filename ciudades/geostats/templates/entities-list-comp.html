@@ -1,0 +1,57 @@
+                <div class="row">
+                    {% if towns %}
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                Your Towns
+                            </div>
+                      <ul class="list-group list-group-flush">
+                          {% for t in towns %}
+                            <li class="list-group-item">
+                                <a link href="/entity/{{ t.pk }}">
+                                    {{ t.entity.name }}
+                                </a>
+                            </li>
+                          {%  endfor %}
+                      </ul>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if regions %}
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                Your regions
+                            </div>
+                      <ul class="list-group list-group-flush">
+                          {% for r in regions %}
+                            <li class="list-group-item">
+                                <a link href="/entity/{{ r.pk }}">
+                                    {{ r.entity.name }}
+                                </a>
+                            </li>
+                          {%  endfor %}
+                      </ul>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if countries %}
+                      <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                Your countries
+                            </div>
+                      <ul class="list-group list-group-flush">
+                          {% for c in countries %}
+                          <li class="list-group-item">
+                              <a link href="/entity/{{ c.pk }}">
+                                  {{ c.entity.name }}
+                              </a>
+                          </li>
+                          {%  endfor %}
+                      </ul>
+                        </div>
+                      </div>
+                </div>
+                {% endif %}
+            </div>

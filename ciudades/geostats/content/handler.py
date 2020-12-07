@@ -1,8 +1,9 @@
 from typing import Union
 
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 
-from ciudades.geostats.models import Town, Country, Region
+from ciudades.geostats.models import Town, Country, Region, UserEntity
 from ciudades.geostats.content.scraper import GeonamesScraper
 
 
@@ -10,6 +11,7 @@ class GeonamesHandler:
     entities_to_create = {}
     scraper = None
     user = None
+
     @staticmethod
     def get_relevant_model(entity_type: int) -> Union[Town, Region, Country, None]:
 
@@ -53,7 +55,15 @@ class GeonamesHandler:
             entity, is_new = model.objects.get_or_create(**self.entities_to_create[key],
                                                          defaults={'creator_id': self.user.pk})
             created_count += 1 if is_new else 0
+            if self.user and entity.pk:
+                self.create_userentity(entity)
             if key == 4:
                 if entity.country.capital != model:
                     Country.objects.filter(pk=entity.country.pk).update(capital=entity)
         return created_count
+
+    def create_userentity(self, entity) -> tuple:
+        return UserEntity.objects.get_or_create(user=self.user,
+                                                object_id=entity.pk,
+                                                content_type=ContentType.objects.get_for_model(
+                                                    entity, for_concrete_model=False))

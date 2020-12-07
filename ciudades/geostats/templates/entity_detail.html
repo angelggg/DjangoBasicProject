@@ -12,12 +12,18 @@
     </div>
     {% if type == "Region" or type == "Town" %}
         {% if type == "Town" %}
+    <div>
             Region : {{ entity.region.name }}
+    </div>
         {% endif %}
-        Country : {{ entity.country.name }}
+    <div>
+            Country : {{ entity.country.name }}
+    </div>
     {% else %}
         {% if entity.capital %}
-        Capital : {{ entity.capital.name }}
+    <div>
+            Capital : {{ entity.capital.name }}
+    </div>
         {% endif %}
     {% endif %}
 {% endblock %}
