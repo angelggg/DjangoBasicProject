@@ -1,5 +1,6 @@
 from random import random
 
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponseNotFound
@@ -16,6 +17,7 @@ def login_view(request):
     if request.GET.get("no_user"):
         args['no_user'] = True
     return render(request, 'login.html', args)
+
 
 def do_login_view(request):
     username = request.POST['uname']
@@ -48,28 +50,30 @@ def logout_view(request):
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
+@login_required
 def create_entity_view(request):
     return render(request, 'create_entity.html')
 
 
-def user_entity_detail(request, pk):
+@login_required
+def user_entity_detail_view(request, pk):
     if not request.user.is_authenticated:
         return redirect("/login")
     try:
         user_entity = UserEntity.objects.get(pk=pk, user=request.user)
         entity = user_entity.entity
-        type = user_entity.content_type.model
-        return render(request, 'entity_detail.html', {'entity': entity, 'type': type.capitalize()})
+        ctype = user_entity.content_type.model
+        return render(request, 'entity_detail.html', {'entity': entity, 'type': ctype.capitalize()})
     except ObjectDoesNotExist:
         return HttpResponseNotFound("Object not found, sorry")
 
 
 def create_entities_view(request):
     from ciudades.geostats.content.handler import GeonamesHandler
+    # Here we'll handle entities creation by asking to the remote api and returning results to user
     if not request.user.is_authenticated:
         code = HTTP_403_FORBIDDEN
         message = {"created": 0, "error": "LoginRequired"}
-
     else:
         user = request.user
         entity_id = request.POST.get("entity_id")
@@ -79,17 +83,20 @@ def create_entities_view(request):
         except AttributeError:
             message = {"created": 0, "error": "IdNotFound"}
             code = HTTP_400_BAD_REQUEST
+
     return JsonResponse(message, status=code)
 
+
+@login_required
 def user_home_view(request):
     towns = sorted(request.user.entities.get_towns(user=request.user)[:5], key=lambda x: random())
     regions = sorted(request.user.entities.get_regions(user=request.user)[:5], key=lambda x: random())
     countries = sorted(request.user.entities.get_countries(user=request.user)[:5], key=lambda x: random())
-    return render(request, 'home.html',{"towns": towns, "regions": regions, "countries": countries})
+    return render(request, 'home.html', {"towns": towns, "regions": regions, "countries": countries})
 
 
-
-def entities_list(request, kind: str):
+@login_required
+def entities_list_view(request, kind: str):
     towns, regions, countries = {}, {}, {}
     if kind == "towns":
         towns = request.user.entities.get_towns(user=request.user).distinct()
@@ -100,7 +107,9 @@ def entities_list(request, kind: str):
     return render(request, 'home.html', {"towns": towns, "regions": regions, "countries": countries})
 
 
-def user_stats(request):
+@login_required
+def user_stats_view(request):
+    # View
     if not request.user.is_authenticated:
         return redirect('home')
     return render(request, 'user-stats.html', {"user_stats": UserStats.objects.filter(user=request.user)})

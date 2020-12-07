@@ -10,6 +10,8 @@ choices = models.Q(app_label='geostats', model='town') | \
 
 
 class GeoEntity(models.Model):
+
+    """Generic to define all entities"""
     name = models.TextField(max_length=250, null=False, blank=False)
     population = models.IntegerField()
     elevation = models.IntegerField()

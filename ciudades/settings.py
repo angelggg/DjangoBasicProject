@@ -35,8 +35,6 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10
 }
 
-# Application definition
-
 INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
@@ -79,10 +77,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ciudades.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -94,9 +88,6 @@ DATABASES = {
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -127,8 +118,5 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.11/howto/static-files/
-
+LOGIN_URL = "/login"
 STATIC_URL = '/static/'

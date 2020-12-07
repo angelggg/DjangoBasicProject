@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from ciudades.geostats.models import GeoEntity, Country, Region, Town, UserEntity
+from ciudades.geostats.models import GeoEntity, Country, Region, Town
 
 
 class GeoEntitySerializer(serializers.ModelSerializer):
