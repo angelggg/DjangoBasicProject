@@ -35,6 +35,7 @@ class GeonamesScraper:
             return "country"
 
     def scrape_geonames(self, entity_id: int) -> Optional[dict]:
+        # Get info from their api
         query_url = f"https://www.geonames.org/getJSON?id={entity_id}&style=gui"
         response = requests.get(query_url)
         if response.status_code == 200:
@@ -67,7 +68,7 @@ class GeonamesScraper:
         # Optional info needed by any object
         return {
             'population': self.parsed_response.get("population"),
-            'elevation': self.parsed_response.get("srtm3")
+            'elevation': self.parsed_response.get("astergdem")
         }
 
     def get_town_reqs(self) -> dict:

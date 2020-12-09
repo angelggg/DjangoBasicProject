@@ -82,6 +82,12 @@ class UserEntity(models.Model):
         unique_together = ('user', 'content_type', 'object_id')
 
 
+class UserEntityImage(models.Model):
+
+    user_entity = models.ForeignKey(UserEntity, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='images/%Y/')
+
+
 class UserStats(models.Model):
     # Here we'll save each users stats for each kind of entity type
 
@@ -92,3 +98,5 @@ class UserStats(models.Model):
 
     class Meta:
         unique_together = ('user', 'content_type')
+
+

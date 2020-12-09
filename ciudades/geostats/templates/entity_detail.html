@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %} {{ entity.name }} {% endblock %}
-{% block add_imports %}  <link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.min.css"/>
-  {% endblock %}
+{% block add_imports %}
+{% endblock %}
 
 {% block content %}
     <div>
@@ -26,4 +26,17 @@
     </div>
         {% endif %}
     {% endif %}
+    {% if images %}
+        {% include "images_carousel.html" %}
+    {% endif %}
+    <div>
+        <form method="POST" enctype="multipart/form-data" action="/upload-detail-image/">
+            {% csrf_token %}
+            <input type="file" id="image" name="image" accept="image/*">
+            <input type="hidden" id="user_entity_id" name="user_entity_id" value="{{ user_entity_id }}">
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+
 {% endblock %}

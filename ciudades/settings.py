@@ -118,5 +118,12 @@ USE_L10N = True
 
 USE_TZ = True
 
-LOGIN_URL = "/login"
+LOGIN_URL = '/login'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+STATIC_ROOT = '/ciudades/geostats/static/'
+SITE_MEDIA_URL = '/ciudades/geostats/media/'
 STATIC_URL = '/static/'
+
+SECURE_CONTENT_TYPE_NOSNIFF = False

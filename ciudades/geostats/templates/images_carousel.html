@@ -1,0 +1,16 @@
+<!-- Will generate a slide passing arg images from db -->
+<div class="carousel slide" data-ride="carousel" data-interval="4000">
+    <div class="carousel-inner">
+        {% for image in images %}
+        {% if forloop.counter0 == 0 %}
+        <div class="carousel-item active">
+            <img src="/media/{{ image.image }}" alt="">
+        </div>
+        {% else %}
+        <div class="carousel-item">
+            <img src="/media/{{ image.image }}" alt="">
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
