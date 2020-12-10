@@ -1,45 +1,45 @@
 {% block  topnavbar %}
 <script src="../static/js/navbar.js"></script>
-<link rel="stylesheet" href="../static/css/navbar.css">
+<link href="../static/css/navbar.css" rel="stylesheet">
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="collapse navbar-collapse" id="navbarText">
-    <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav mr-auto">
 
-        {% if not user.is_authenticated %}
-      <li class="nav-item">
-        <a class="nav-link" href="/login">Log in</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/signup">Sign up</a>
-      </li>
-        {% else %}
-       <li class="nav-item ">
-        <a class="nav-link" href="/">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/entities-list/towns/">Towns</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/entities-list/regions/">Regions</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/entities-list/countries/">Countries</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/create_entity">Create entity</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/user-stats">Stats</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/logout">Log out</a>
-      </li>
-        {% endif %}
-    </ul>
-    <span class="navbar-text">
+            {% if not user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Log in</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/signup">Sign up</a>
+            </li>
+            {% else %}
+            <li class="nav-item ">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/entities-list/towns/">Towns</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/entities-list/regions/">Regions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/entities-list/countries/">Countries</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/create_entity">Create entity</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/user-stats">Stats</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Log out</a>
+            </li>
+            {% endif %}
+        </ul>
+        <span class="navbar-text">
         *
     </span>
-  </div>
+    </div>
 </nav>
 {% endblock  %}

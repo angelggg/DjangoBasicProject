@@ -8,7 +8,6 @@ from ciudades.geostats.models import UserEntity, UserStats
 
 @receiver(post_save, sender=UserEntity)
 def update_user_stats(sender, **kwargs):
-
     """On saving an user_entity -> Update stats for the user"""
     instance = kwargs.get('instance')
     user = instance.user

@@ -1,4 +1,5 @@
 from rest_framework.routers import DefaultRouter
+
 from ciudades.geostats.viewsets import CountryViewSet, TownViewSet, RegionViewSet, UserEntitiesViewSet
 
 apirouter = DefaultRouter()

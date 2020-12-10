@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.contrib.contenttypes.fields import GenericForeignKey
 
 # We'll use it as a relation between user and places selected by
 choices = models.Q(app_label='geostats', model='town') | \
@@ -10,7 +10,6 @@ choices = models.Q(app_label='geostats', model='town') | \
 
 
 class GeoEntity(models.Model):
-
     """Generic to define all entities"""
     name = models.TextField(max_length=250, null=False, blank=False)
     population = models.IntegerField()
@@ -71,7 +70,6 @@ class UserEntityManager(models.Manager):
 
 
 class UserEntity(models.Model):
-
     objects = UserEntityManager()
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="entities")
     object_id = models.PositiveIntegerField()
@@ -83,7 +81,6 @@ class UserEntity(models.Model):
 
 
 class UserEntityImage(models.Model):
-
     user_entity = models.ForeignKey(UserEntity, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='images/%Y/')
 
@@ -98,5 +95,3 @@ class UserStats(models.Model):
 
     class Meta:
         unique_together = ('user', 'content_type')
-
-

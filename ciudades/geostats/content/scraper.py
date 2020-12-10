@@ -1,11 +1,9 @@
-from ciudades.geostats.models import Town, Country, Region
+from typing import Optional
 
 import requests
-from typing import Optional
 
 
 class GeonamesScraper:
-
     entity_types = {
         "country": 1,
         "region": 2,

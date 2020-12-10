@@ -1,19 +1,18 @@
-
 {% block form_create_entity %}
-    <div class="d-flex justify-content-center border border-dark" style="pa">
-                    <!-- We'll use good old jquery ajax.. -->
-            <script src="../static/js/form_create_entity.js"></script>
-            <form action="/create_entities/" method="POST" name="create_entities">
-                {% csrf_token %}
-                <input type="number" class="form-control" name="entity_id" id="entity_id">
-                <p>
-                    <label for="entity_id" >Entity ID</label>
-                </p>
-                <p>
-                   <button type="button" class="btn btn-primary" onclick="CreateEntityAjax()">Crear</button>
-                </p>
-                 <p id="create_entity_result"></p>
-        </form>
-    </div>
+<div class="d-flex justify-content-center border border-dark" style="pa">
+    <!-- We'll use good old jquery ajax.. -->
+    <script src="../static/js/form_create_entity.js"></script>
+    <form action="/create_entities/" method="POST" name="create_entities">
+        {% csrf_token %}
+        <input class="form-control" id="entity_id" name="entity_id" type="number">
+        <p>
+            <label for="entity_id">Entity ID</label>
+        </p>
+        <p>
+            <button class="btn btn-primary" onclick="CreateEntityAjax()" type="button">Crear</button>
+        </p>
+        <p id="create_entity_result"></p>
+    </form>
+</div>
 
 {% endblock %}

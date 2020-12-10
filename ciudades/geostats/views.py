@@ -1,12 +1,12 @@
 from random import random
 
-from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render, redirect
-from django.http import JsonResponse, HttpResponseNotFound
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import JsonResponse, HttpResponseNotFound
+from django.shortcuts import render, redirect
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK, HTTP_403_FORBIDDEN
 
 from ciudades.geostats.models import UserEntity, UserStats, UserEntityImage
@@ -116,6 +116,7 @@ def user_stats_view(request):
     if not request.user.is_authenticated:
         return redirect('home')
     return render(request, 'user-stats.html', {'user_stats': UserStats.objects.filter(user=request.user)})
+
 
 @login_required
 def upload_detail_image(request):

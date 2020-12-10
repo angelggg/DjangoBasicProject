@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 {% block title %}
-        {% if not user.is_authenticated %}
-            Home
-                {% else %}
-            {{ user.username }}
-        {% endif %}
+{% if not user.is_authenticated %}
+Home
+{% else %}
+{{ user.username }}
+{% endif %}
 {% endblock %}
 
 {% block content %}
-        {% if not user.is_authenticated %}
-           <div>
-                <h1>Home</h1>
-                <h5> Please log in</h5>
-           </div>
-        {% else %}
-            {% include "entities-list-comp.html" %}
-        {% endif %}
+{% if not user.is_authenticated %}
+<div>
+    <h1>Home</h1>
+    <h5> Please log in</h5>
+</div>
+{% else %}
+{% include "entities-list-comp.html" %}
+{% endif %}
 {% endblock %}

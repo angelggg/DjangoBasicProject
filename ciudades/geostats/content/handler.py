@@ -3,8 +3,8 @@ from typing import Union
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 
-from ciudades.geostats.models import Town, Country, Region, UserEntity
 from ciudades.geostats.content.scraper import GeonamesScraper
+from ciudades.geostats.models import Town, Country, Region, UserEntity
 
 
 class GeonamesHandler:

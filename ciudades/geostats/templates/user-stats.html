@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 {% block title %}
-  User stats
+User stats
 {% endblock %}
 
 {% block content %}
-    {% for stat in user_stats %}
-        <div>
-            <ul class="list-group">
-                <li class="list-group-item">
-                    Type: {{ stat.content_type.model.capitalize }}, &nbsp;
-                    Mean population: {{ stat.mean_population }}, &nbsp;
-                    mean elevation: {{ stat.mean_elevation }}
-                </li>
-            </ul>
-        </div>
-    {% endfor %}
+{% for stat in user_stats %}
+<div>
+    <ul class="list-group">
+        <li class="list-group-item">
+            Type: {{ stat.content_type.model.capitalize }}, &nbsp;
+            Mean population: {{ stat.mean_population }}, &nbsp;
+            mean elevation: {{ stat.mean_elevation }}
+        </li>
+    </ul>
+</div>
+{% endfor %}
 {% endblock %}

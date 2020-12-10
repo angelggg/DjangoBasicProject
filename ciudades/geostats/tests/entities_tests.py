@@ -1,6 +1,7 @@
 import pytest
-from ciudades.geostats.models import *
+
 from ciudades.geostats.content.handler import GeonamesHandler
+from ciudades.geostats.models import *
 
 
 @pytest.fixture(scope='session')

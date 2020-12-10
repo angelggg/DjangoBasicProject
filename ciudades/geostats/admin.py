@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from ciudades.geostats.models import Town, Region, Country
 
 

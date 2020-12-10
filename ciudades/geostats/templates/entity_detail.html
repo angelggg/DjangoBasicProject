@@ -4,39 +4,37 @@
 {% endblock %}
 
 {% block content %}
-    <div>
-        <p>Type: {{ type }}</p>
-        <p>Name: {{ entity.name }}</p>
-        <p>Population: {{ entity.population }}</p>
-        <p>Elevation: {{ entity.elevation }}</p>
-    </div>
-    {% if type == "Region" or type == "Town" %}
-        {% if type == "Town" %}
-    <div>
-            Region : {{ entity.region.name }}
-    </div>
-        {% endif %}
-    <div>
-            Country : {{ entity.country.name }}
-    </div>
-    {% else %}
-        {% if entity.capital %}
-    <div>
-            Capital : {{ entity.capital.name }}
-    </div>
-        {% endif %}
-    {% endif %}
-    {% if images %}
-        {% include "images_carousel.html" %}
-    {% endif %}
-    <div>
-        <form method="POST" enctype="multipart/form-data" action="/upload-detail-image/">
-            {% csrf_token %}
-            <input type="file" id="image" name="image" accept="image/*">
-            <input type="hidden" id="user_entity_id" name="user_entity_id" value="{{ user_entity_id }}">
-            <input type="submit" value="Submit">
-        </form>
-    </div>
-
-
+<div>
+    <p>Type: {{ type }}</p>
+    <p>Name: {{ entity.name }}</p>
+    <p>Population: {{ entity.population }}</p>
+    <p>Elevation: {{ entity.elevation }}</p>
+</div>
+{% if type == "Region" or type == "Town" %}
+{% if type == "Town" %}
+<div>
+    Region : {{ entity.region.name }}
+</div>
+{% endif %}
+<div>
+    Country : {{ entity.country.name }}
+</div>
+{% else %}
+{% if entity.capital %}
+<div>
+    Capital : {{ entity.capital.name }}
+</div>
+{% endif %}
+{% endif %}
+{% if images %}
+{% include "images_carousel.html" %}
+{% endif %}
+<div>
+    <form action="/upload-detail-image/" enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        <input accept="image/*" id="image" name="image" type="file">
+        <input id="user_entity_id" name="user_entity_id" type="hidden" value="{{ user_entity_id }}">
+        <input type="submit" value="Submit">
+    </form>
+</div>
 {% endblock %}
